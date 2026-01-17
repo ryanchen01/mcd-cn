@@ -1,0 +1,13 @@
+/bin/
+/.env
+/.env.*
+!.env.example
+
+*.exe
+*.log
+
+/dist/
+/out/
+
+.DS_Store
+Thumbs.db
