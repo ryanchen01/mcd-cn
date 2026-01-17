@@ -15,6 +15,7 @@ import (
 )
 
 const defaultServerURL = "https://mcp.mcd.cn/mcp-servers/mcd-mcp"
+const serverURLEnvKey = "MCDCN_MCP_URL"
 
 // Version is overridden at build time via -ldflags.
 var Version = "dev"
@@ -40,7 +41,7 @@ func Run(ctx context.Context, args []string) error {
 		return err
 	}
 
-	client := mcp.NewClient(defaultServerURL, token)
+	client := mcp.NewClient(resolveServerURL(), token)
 	result, err := client.CallTool(ctx, parsed.Tool, parsed.Params)
 	if err != nil {
 		return err
@@ -150,6 +151,14 @@ Examples:
 
 Notes:
   - Set MCDCN_MCP_TOKEN or provide it in .env.
+  - Override MCP URL with MCDCN_MCP_URL.
   - Known tools: %s
 `, strings.Join(tools, ", "))
+}
+
+func resolveServerURL() string {
+	if value := strings.TrimSpace(os.Getenv(serverURLEnvKey)); value != "" {
+		return value
+	}
+	return defaultServerURL
 }
