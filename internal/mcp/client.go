@@ -61,7 +61,7 @@ func (c *Client) ensureInitialized(ctx context.Context) error {
 		"capabilities":    map[string]any{},
 		"clientInfo": map[string]any{
 			"name":    "mcd-cn",
-			"version": "0.1.0",
+			"version": "0.1.2",
 		},
 	}
 
@@ -159,7 +159,7 @@ func (c *Client) doRPC(ctx context.Context, method string, params any, expectRes
 
 	if len(bytes.TrimSpace(body)) == 0 {
 		if resp.StatusCode >= http.StatusBadRequest {
-			return nil, fmt.Errorf("mcp error: %s", resp.Status)
+			return nil, formatHTTPError(resp, body)
 		}
 		return nil, errors.New("empty response from MCP server")
 	}
@@ -167,7 +167,7 @@ func (c *Client) doRPC(ctx context.Context, method string, params any, expectRes
 	var rpcResp rpcResponse
 	if err := json.Unmarshal(body, &rpcResp); err != nil {
 		if resp.StatusCode >= http.StatusBadRequest {
-			return nil, fmt.Errorf("mcp error: %s", resp.Status)
+			return nil, formatHTTPError(resp, body)
 		}
 		return nil, fmt.Errorf("decode response: %w", err)
 	}
@@ -242,4 +242,23 @@ func idMatches(rawID json.RawMessage, id string) bool {
 		return decoded == id
 	}
 	return string(rawID) == id
+}
+
+func formatHTTPError(resp *http.Response, body []byte) error {
+	snippet := compactSnippet(string(body), 300)
+	if snippet == "" {
+		return fmt.Errorf("mcp error: %s", resp.Status)
+	}
+	return fmt.Errorf("mcp error: %s: %s", resp.Status, snippet)
+}
+
+func compactSnippet(value string, max int) string {
+	compact := strings.Join(strings.Fields(value), " ")
+	if compact == "" {
+		return ""
+	}
+	if len(compact) > max {
+		return compact[:max] + "..."
+	}
+	return compact
 }

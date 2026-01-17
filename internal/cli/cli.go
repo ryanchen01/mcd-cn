@@ -33,18 +33,19 @@ func Run(ctx context.Context, args []string) error {
 
 	parsed, err := parseArgs(args)
 	if err != nil {
-		return fmt.Errorf("%w\n\n%s", err, usage())
+		return fmt.Errorf("parse arguments: %w\n\n%s", err, usage())
 	}
 
 	token, err := config.LoadToken()
 	if err != nil {
-		return err
+		return fmt.Errorf("load auth token: %w", err)
 	}
 
-	client := mcp.NewClient(resolveServerURL(), token)
+	serverURL := resolveServerURL()
+	client := mcp.NewClient(serverURL, token)
 	result, err := client.CallTool(ctx, parsed.Tool, parsed.Params)
 	if err != nil {
-		return err
+		return fmt.Errorf("call tool %q via %s: %w", parsed.Tool, serverURL, err)
 	}
 
 	if len(result) == 0 || string(result) == "null" {
