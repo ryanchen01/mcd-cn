@@ -61,7 +61,7 @@ func (c *Client) ensureInitialized(ctx context.Context) error {
 		"capabilities":    map[string]any{},
 		"clientInfo": map[string]any{
 			"name":    "mcd-cn",
-			"version": "0.1.2",
+			"version": "0.1.3",
 		},
 	}
 

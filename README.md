@@ -17,6 +17,8 @@ Example `.env`:
 MCDCN_MCP_TOKEN=your_token_here
 ```
 
+[Get MCP Token](https://www.google.com/search?q=%231-%E7%94%B3%E8%AF%B7mcp-token)
+
 ## Build
 
 ```sh
@@ -37,7 +39,7 @@ go build -o bin/mcd-cn ./cmd/mcd-cn
 ## Usage
 
 ```sh
-./bin/mcd-cn <tool-name> [--param value] [--param=value] [--flag]
+./bin/mcd-cn <tool-name> [--param value] [--param=value] [--flag] [--json]
 ```
 
 Examples:
@@ -46,17 +48,18 @@ Examples:
 ./bin/mcd-cn campaign-calender
 ./bin/mcd-cn campaign-calender --specifiedDate 2025-12-09
 ./bin/mcd-cn available-coupons
+./bin/mcd-cn available-coupons --json
 ```
 
 ## Tools
 
 Based on the current MCP specs, available tools include:
 
-- `campaign-calender` (optional `--specifiedDate` in `yyyy-MM-dd`)
-- `available-coupons`
-- `auto-bind-coupons`
-- `my-coupons`
-- `now-time-info`
+- `campaign-calender`: monthly marketing activity calendar (optional `--specifiedDate` in `yyyy-MM-dd`).
+- `available-coupons`: list coupons available to claim.
+- `auto-bind-coupons`: auto-claim all available coupons.
+- `my-coupons`: list coupons already in your account.
+- `now-time-info`: fetch current server time details.
 
 ## Development
 
