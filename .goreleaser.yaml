@@ -38,6 +38,7 @@ changelog:
 
 brews:
   - name: mcd-cn
+    directory: Formula
     description: "CLI client for the McDonald's China MCP server."
     homepage: "https://github.com/ryanchen01/mcd-cn"
     license: "MIT"
