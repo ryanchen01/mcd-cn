@@ -2,11 +2,6 @@
 
 `mcd-cn` is a small CLI client for the McDonald's China MCP server.
 
-## Requirements
-
-- Go 1.25+
-- MCP token from the McDonald's China MCP console
-
 ## Setup
 
 The CLI reads the MCP token from the `MCDCN_MCP_TOKEN` environment variable. If it is not set, it falls back to `.env` in the project root.
@@ -19,21 +14,12 @@ MCDCN_MCP_TOKEN=your_token_here
 
 [Get MCP Token](https://www.google.com/search?q=%231-%E7%94%B3%E8%AF%B7mcp-token)
 
-## Build
+## Installation
+
+Homebrew (macOS/Linux):
 
 ```sh
-make build
-```
-
-This produces:
-
-- `bin/mcd-cn` on macOS/Linux
-- `bin/mcd-cn.exe` on Windows
-
-You can also build directly:
-
-```sh
-go build -o bin/mcd-cn ./cmd/mcd-cn
+brew install ryanchen01/tap/mcd-cn
 ```
 
 ## Usage
@@ -67,4 +53,26 @@ Based on the current MCP specs, available tools include:
 make fmt
 make test
 make tidy
+```
+
+### Requirements
+
+- Go 1.25+
+- MCP token from the McDonald's China MCP console
+
+### Build
+
+```sh
+make build
+```
+
+This produces:
+
+- `bin/mcd-cn` on macOS/Linux
+- `bin/mcd-cn.exe` on Windows
+
+You can also build directly:
+
+```sh
+go build -o bin/mcd-cn ./cmd/mcd-cn
 ```
