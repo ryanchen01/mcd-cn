@@ -16,9 +16,17 @@ import (
 
 const defaultServerURL = "https://mcp.mcd.cn/mcp-servers/mcd-mcp"
 
+// Version is overridden at build time via -ldflags.
+var Version = "dev"
+
 func Run(ctx context.Context, args []string) error {
 	if len(args) == 0 || isHelp(args[0]) {
 		fmt.Fprintln(os.Stdout, usage())
+		return nil
+	}
+
+	if isVersion(args[0]) {
+		fmt.Fprintln(os.Stdout, Version)
 		return nil
 	}
 
@@ -113,6 +121,15 @@ func isHelp(arg string) bool {
 	}
 }
 
+func isVersion(arg string) bool {
+	switch strings.ToLower(arg) {
+	case "-v", "--version", "version":
+		return true
+	default:
+		return false
+	}
+}
+
 func usage() string {
 	tools := []string{
 		"campaign-calender",
@@ -124,6 +141,7 @@ func usage() string {
 	sort.Strings(tools)
 	return fmt.Sprintf(`Usage:
   mcd-cn <tool-name> [--param value] [--param=value] [--flag]
+  mcd-cn version
 
 Examples:
   mcd-cn campaign-calender
