@@ -6,7 +6,7 @@ on:
       - "v*"
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   goreleaser:
@@ -20,9 +20,12 @@ jobs:
           go-version-file: go.mod
           cache: true
       - uses: goreleaser/goreleaser-action@v6
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
         with:
           version: "~> v2"
-          args: build --clean
+          args: release --clean
       - uses: actions/upload-artifact@v4
         with:
           name: mcd-cn-${{ github.ref_name }}
